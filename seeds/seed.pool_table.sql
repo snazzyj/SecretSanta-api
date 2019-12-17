@@ -1,3 +1,3 @@
-INSERT INTO pool_table (pool_name)
+INSERT INTO pool_table (pool_name, admin_email)
 VALUES 
-    ('Elements Massage Secret Santa 2019')
+    ('Elements Massage Secret Santa 2019', 'silentx.alex@gmail.com')
