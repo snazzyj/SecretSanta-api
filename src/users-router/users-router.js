@@ -25,11 +25,13 @@ usersRouter
 usersRouter
     .route('/:user_id')
     .all((req, res, next) => {
+       
         UsersService.getById(
             req.app.get('db'),
             req.params.user_id
         )
         .then(user => {
+            console.log("user:", user)
             if (!user) {
                 return res.status(404).json({
                     error: {message: `User doesn't exist`}
@@ -41,7 +43,21 @@ usersRouter
         .catch(next)
     })
     .get((req, res, next) => {
-        res.json(serializeUser(res.user))
+        console.log("user in GET request", res.user)
+        res.send(res.user)
+        
+        // let pair;
+        // UsersService.getUserPair(
+        //     req.app.get('db'),
+        //     res.user.email
+        // )
+        // .then(user => {
+        //     console.log("pair:",user)
+        //     pair = user
+        //     next();
+        // })
+        // .catch(next)
     })
+
 
 module.exports = usersRouter;
