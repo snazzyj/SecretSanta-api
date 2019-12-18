@@ -16,7 +16,10 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.use('/api/users', usersRouter);
+app.use('/api/users', usersRouter); //profile
+//app.use('/api/create-pool') //post req for creating pool + pairings?
+//app.use('/api/login') // post req for login
+//app.use('/api/register') // post req for sign up
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')

@@ -5,8 +5,8 @@ const UsersService = {
 
     getById(knex, id) {
         return knex
-            .from('users')
             .select('*')
+            .from('users')
             .where('id', id)
             .first()
     }

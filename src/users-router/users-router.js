@@ -8,7 +8,7 @@ const serializeUser = user => ({
     id: user.id,
     name: user.name,
     email: user.email,
-    interests: user.interests
+    password: user.password
 })
 
 usersRouter
@@ -27,7 +27,7 @@ usersRouter
     .all((req, res, next) => {
         UsersService.getById(
             req.app.get('db'),
-            req.params.id
+            req.params.user_id
         )
         .then(user => {
             if (!user) {
