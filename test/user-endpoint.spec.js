@@ -47,7 +47,9 @@ describe.only('Users Endpoints', function() {
 
             it('GET /api/users/userId responds with 200 and the specified user', () => {
                 const userId = 1;
-                const expectedUser = testUsers[userId - 1];
+                const User = testUsers[userId - 1];
+                const expectedUser = [];
+                expectedUser.push(User)
 
                 return supertest(app)
                     .get(`/api/users/${userId}`)
@@ -56,7 +58,9 @@ describe.only('Users Endpoints', function() {
 
             it('getById() gets a user by id', () => {
                 const userId = 1;
-                const expectedUser = testUsers[userId - 1];
+                const User = testUsers[userId - 1];
+                const expectedUser = [];
+                expectedUser.push(User)
 
                 return UserService.getById(db, userId)
                     .then(actual => {

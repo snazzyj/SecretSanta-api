@@ -3,20 +3,20 @@ function makeUsersArray() {
         {
             id: 1,
             name: 'Alex',
-            password: 'Password123',
-            email: 'silentx.alex@gmail.com'
+            email: 'silentx.alex@gmail.com',
+            password: 'Password123'
         },
         {
             id: 2,
             name: 'Charleigh',
-            password: 'IamACat2',
-            email: 'imacat@gmail.com'
+            email: 'imacat@gmail.com',
+            password: 'IamACat2'
         },
         {
             id: 3,
             name: 'Leyna',
-            password: 'CatLover123',
-            email: 'catsarethebest@gmail.com'
+            email: 'catsarethebest@gmail.com',
+            password: 'CatLover123'
         }
     ]
 }
