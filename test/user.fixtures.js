@@ -4,7 +4,7 @@ function makeUsersArray() {
             id: 1,
             name: 'Alex',
             email: 'silentx.alex@gmail.com',
-            password: 'Password123'
+            password: '$2a$04$2rz5yysGLie6erX24FoIjeyT6VSPnEmZ51pYtXrFAXyPU7fTxVgL2'
         },
         {
             id: 2,

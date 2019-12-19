@@ -9,7 +9,7 @@ loginRouter
     .post(jsonParser, (req, res, next) => {
         const { email, password } = req.body;
         const loginUser = { email, password };
-
+        
         for (const [key, value] of Object.entries(loginUser))
             if (value == null)
                 return res.status(400).json({

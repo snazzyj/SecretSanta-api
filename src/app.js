@@ -19,10 +19,14 @@ app.use(helmet());
 app.use(cors());
 
 app.use('/api/users', usersRouter); // locates user profile
-app.use('/api/register', registerRouter) // post req for sign up
-app.use('/api/login', loginRouter) // post req for login
-//app.use('/api/pool') //post req for creating pool
+//app.use('/api/pools') //post req for creating pool
 //app.use('/api/pairings') // get + post req for pairings
+
+//move register + login into /auth/
+app.use('/api/register', registerRouter) // post req for sign up 
+app.use('/api/login', loginRouter) // post req for login
+//refresh to get new token
+
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')
