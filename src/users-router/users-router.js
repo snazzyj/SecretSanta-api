@@ -2,7 +2,6 @@ const express = require('express');
 const UsersService = require('./users-service');
 
 const usersRouter = express.Router();
-const jsonParser = express.json();
 
 const serializeUser = user => ({
     id: user.id,
@@ -45,18 +44,6 @@ usersRouter
     .get((req, res, next) => {
         console.log("user in GET request", res.user)
         res.send(res.user)
-        
-        // let pair;
-        // UsersService.getUserPair(
-        //     req.app.get('db'),
-        //     res.user.email
-        // )
-        // .then(user => {
-        //     console.log("pair:",user)
-        //     pair = user
-        //     next();
-        // })
-        // .catch(next)
     })
 
 

@@ -5,6 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const {NODE_ENV} = require('./config');
 const usersRouter = require('./users-router/users-router');
+const registerRouter = require('./register-router/register-router');
 
 const app = express();
 
@@ -16,10 +17,11 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.use('/api/users', usersRouter); //profile
-//app.use('/api/create-pool') //post req for creating pool + pairings?
+app.use('/api/users', usersRouter); // locates user profile
+app.use('/api/register', registerRouter) // post req for sign up
+//app.use('/api/pool') //post req for creating pool
+//app.use('/api/pairings') // get + post req for pairings
 //app.use('/api/login') // post req for login
-//app.use('/api/register') // post req for sign up
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')
