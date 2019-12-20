@@ -72,4 +72,31 @@ function getPairings() {
     ]
 }
 
-module.exports = {makeUsersArray, makePoolsArray, getPairings}
+function makeInterestsArray() {
+    return [
+        {
+            email: 'silentx.alex@gmail.com',
+            interest: 'Plushies'
+        },
+        {
+            email: 'catsarethebest@gmail.com',
+            interest: 'Candles'
+        },
+        {
+            email: 'imajerk@gmail.com',
+            interest: 'Catnip'
+        },
+        {
+            email: 'silentx.alex@gmail.com',
+            interest: 'Peppermint'
+        },
+
+    ]
+}
+
+module.exports = {
+    makeUsersArray, 
+    makePoolsArray, 
+    getPairings, 
+    makeInterestsArray
+}

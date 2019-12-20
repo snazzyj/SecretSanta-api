@@ -4,7 +4,7 @@ const app = require('../src/app');
 const {makeUsersArray} = require('./user.fixtures');
 const UserService = require('../src/users-router/users-service');
 
-describe('Users Endpoints', function() {
+describe.only('Users Endpoints', function() {
 
     let db;
 

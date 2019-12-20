@@ -3,7 +3,7 @@ const knex = require('knex');
 const app = require('../src/app');
 const {makeUsersArray, makePoolsArray} = require('./user.fixtures');
 
-describe('Pools Endpoints', function () {
+describe.only('Pools Endpoints', function () {
     let db;
 
     before('make knex instance', () => {
