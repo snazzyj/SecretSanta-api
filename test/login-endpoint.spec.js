@@ -72,8 +72,6 @@ describe.only('Login Endpoints', function() {
                     password: 'Password123'
                 }
 
-                console.log('USER INFO: ', userValidCreds)
-
                 const expectedToken = jwt.sign(
                     {user_id: testUser.id},
                     process.env.JWT_SECRET,
@@ -86,9 +84,6 @@ describe.only('Login Endpoints', function() {
                 return supertest(app)
                     .post('/api/login/')
                     .send(userValidCreds)
-                    .expect(function(res) {
-                        console.log(res.body)
-                    })
                     .expect(200, {
                         authToken: expectedToken
                     })

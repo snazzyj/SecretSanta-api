@@ -21,4 +21,19 @@ function makeUsersArray() {
     ]
 }
 
-module.exports = {makeUsersArray}
+function makePoolsArray() {
+    return [
+        {
+            id: 1,
+            admin_email: 'silentx.alex@gmail.com',
+            pool_name: 'Secret Santa Test'
+        },
+        {
+            id: 2,
+            admin_email: 'imacat@gmail.com',
+            pool_name: 'Cat Santa'
+        }
+    ]
+} 
+
+module.exports = {makeUsersArray, makePoolsArray}
