@@ -42,7 +42,7 @@ function makePoolsArray() {
     ]
 }
 
-function makePairings() {
+function getPairings() {
     return [
         {
             pool_id: 1,
@@ -53,12 +53,12 @@ function makePairings() {
         {
             pool_id: 1,
             email: 'imacat@gmail.com',
-            giftee: 'Catlover123@gmail.com',
+            giftee: 'catsarethebest@gmail.com',
             confirmation: false,
         },
         {
             pool_id: 1,
-            email: 'Catlover123@gmail.com',
+            email: 'catsarethebest@gmail.com',
             giftee: 'imajerk@gmail.com',
             confirmation: false,
         },
@@ -72,4 +72,4 @@ function makePairings() {
     ]
 }
 
-module.exports = {makeUsersArray, makePoolsArray, makePairings}
+module.exports = {makeUsersArray, makePoolsArray, getPairings}

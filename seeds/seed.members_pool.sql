@@ -9,4 +9,8 @@ VALUES
     (1,'drk@gmail.com', 'princesstofu@gmail.com', true),
     (1,'healers@gmail.com', 'puns@gmail.com', true),
     (1,'pld@gmail.com', 'healers@gmail.com', true),
-    (1,'ilovecats@gmail.com', 'brokenojoke@gmail.com', true)
+    (1,'ilovecats@gmail.com', 'brokenojoke@gmail.com', true),
+    (2, 'ilovecats@gmail.com', 'silentx.alex@gmail.com', false),
+    (2, 'silentx.alex@gmail.com', 'imajerk@gmail.com', false),
+    (2, 'imajerk@gmail.com', 'meow@gmail.com', false),
+    (2, 'meow@gmail.com', 'ilovecats@gmail.com', false)
