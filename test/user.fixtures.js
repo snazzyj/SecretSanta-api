@@ -17,6 +17,12 @@ function makeUsersArray() {
             name: 'Leyna',
             email: 'catsarethebest@gmail.com',
             password: 'CatLover123'
+        },
+        {
+            id: 4,
+            name: 'Ollie',
+            email: 'imajerk@gmail.com',
+            password: 'jerK123'
         }
     ]
 }
@@ -24,16 +30,46 @@ function makeUsersArray() {
 function makePoolsArray() {
     return [
         {
-            id: 1,
+            pool_id: 1,
             admin_email: 'silentx.alex@gmail.com',
             pool_name: 'Secret Santa Test'
         },
         {
-            id: 2,
+            pool_id: 2,
             admin_email: 'imacat@gmail.com',
             pool_name: 'Cat Santa'
         }
     ]
-} 
+}
 
-module.exports = {makeUsersArray, makePoolsArray}
+function makePairings() {
+    return [
+        {
+            pool_id: 1,
+            email: 'silentx.alex@gmail.com',
+            giftee: 'imacat@gmail.com',
+            confirmation: false,
+        },
+        {
+            pool_id: 1,
+            email: 'imacat@gmail.com',
+            giftee: 'Catlover123@gmail.com',
+            confirmation: false,
+        },
+        {
+            pool_id: 1,
+            email: 'Catlover123@gmail.com',
+            giftee: 'imajerk@gmail.com',
+            confirmation: false,
+        },
+        {
+            pool_id: 1,
+            email: 'imajerk@gmail.com',
+            giftee: 'silentx.alex@gmail.com',
+            confirmation: false,
+        }
+        
+    ]
+}
+
+module.exports = {makeUsersArray, makePoolsArray, makePairings}

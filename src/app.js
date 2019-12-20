@@ -8,6 +8,7 @@ const usersRouter = require('./users-router/users-router');
 const registerRouter = require('./register-router/register-router');
 const loginRouter = require('./login-router/login-router');
 const poolsRouter = require('./pools-router/pools-router');
+const pairingRouter = require('./pairings-router/pairings-router');
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(cors());
 
 app.use('/api/users', usersRouter); // locates user profile
 app.use('/api/pools', poolsRouter); //post req for creating pool
-//app.use('/api/pairings') // get + post req for pairings
+app.use('/api/pairings', pairingRouter) // get + post req for pairings
 //app.use('/api/interests') // get + post req for user interests
 
 //move register + login into /auth/
