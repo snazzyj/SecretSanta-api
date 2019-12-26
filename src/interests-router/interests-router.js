@@ -47,5 +47,16 @@ interestsRouter
     .get((req, res, next) => {
         res.send(res.interest)
     })
+    .delete((req, res, next) => {
+        console.log(req.params.interest)
+        InterestsService.deleteInterest(
+            req.app.get('db'),
+            req.params.interest
+        )
+        .then( () => {
+            res.status(204).end()
+        })
+        .catch(next)
+    })
 
 module.exports = interestsRouter;

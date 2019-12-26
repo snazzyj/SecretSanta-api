@@ -15,6 +15,13 @@ const InterestsService = {
         .select('*')
         .from('user_interests')
         .where('email', email)
+    },
+
+    deleteInterest(knex, interest) {
+        return knex
+        .from('user_interests')
+        .where('interest', interest)
+        .delete()
     }
 
 }

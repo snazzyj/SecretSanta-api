@@ -8,6 +8,12 @@ const UsersService = {
             .select('*')
             .from('users')
             .where('id', id)
+    },
+    getByEmail(knex, email) {
+        return knex
+            .select('*')
+            .from('users')
+            .where('email', email)
     }
 }
 

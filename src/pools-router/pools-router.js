@@ -9,8 +9,22 @@ const serializePool = pool => ({
     admin_email: pool.admin_email
 })
 
+const serializePoolWithId = pool => ({
+    pool_name: pool.pool_name,
+    admin_email: pool.admin_email,
+    pool_id: pool.pool_id
+})
+
 poolsRouter
     .route('/')
+    .get((req, res, next) => {
+        const knexInstance = req.app.get('db');
+        PoolsService.getAllPools(knexInstance)
+            .then(pool => {
+                res.json(pool)
+            })
+            .catch(next)
+    })
     .post(jsonParser, (req, res, next) => {
         const {admin_email, pool_name} = req.body;
         const newPool = {admin_email, pool_name};
@@ -24,5 +38,6 @@ poolsRouter
         })
         .catch(next)
     })
+
 
 module.exports = poolsRouter;

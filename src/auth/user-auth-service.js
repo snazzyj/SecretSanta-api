@@ -30,6 +30,18 @@ const UserAuthService = {
         .then(rows => {
             return rows[0]
         })
+    },
+
+    hasUserWithEmail(knex, email) {
+        return knex
+        .from('users').
+        where('email', email)
+        .first().
+        then(user => !!user)
+    },
+
+    hashPassword(password) {
+        return bcrypt.hash(password, 12)
     }
 }
 

@@ -46,5 +46,30 @@ usersRouter
         res.send(res.user)
     })
 
+usersRouter
+    .route('/email/:user_email')
+    .all((req, res, next) => {
+       
+        UsersService.getByEmail(
+            req.app.get('db'),
+            req.params.user_email
+        )
+        .then(user => {
+            console.log("user:", user)
+            if (!user) {
+                return res.status(404).json({
+                    error: {message: `User doesn't exist`}
+                })
+            }
+            res.user = user;
+            next();
+        })
+        .catch(next)
+    })
+    .get((req, res, next) => {
+        console.log("user in GET request", res.user)
+        res.send(res.user)
+    })
+
 
 module.exports = usersRouter;
