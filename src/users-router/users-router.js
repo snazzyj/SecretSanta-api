@@ -1,7 +1,9 @@
 const express = require('express');
 const UsersService = require('./users-service');
+const generatePassword = require('password-generator');
 
 const usersRouter = express.Router();
+const jsonParser = express.json();
 
 const serializeUser = user => ({
     id: user.id,
@@ -19,7 +21,32 @@ usersRouter
                 res.json(users.map(serializeUser))
             })
             .catch(next)    
-})
+    })
+    .post(jsonParser, (req, res, next) => {
+        const {users} = req.body;
+
+        users.forEach((user) => {
+
+            let password = "";
+            password = generatePassword(6, false)
+
+            user = {
+                name: user.name,
+                email: user.email,
+                password: password
+            }
+            
+            return UsersService.insertUsers(
+                req.app.get('db'),
+                user
+            )
+
+            .then(user => {
+                res.status(201)
+            })
+            .catch(next)
+        })
+    })
 
 usersRouter
     .route('/:user_id')

@@ -14,6 +14,16 @@ const UsersService = {
             .select('*')
             .from('users')
             .where('email', email)
+    },
+
+    insertUsers(knex, users) {
+        return knex
+        .insert(users)
+        .into('users')
+        .returning('*')
+        .then(rows => {
+            return rows[0]
+        })
     }
 }
 
