@@ -6,11 +6,6 @@ const jsonParser = express.json();
 
 const serializePool = pool => ({
     pool_name: pool.pool_name,
-    admin_email: pool.admin_email
-})
-
-const serializePoolWithId = pool => ({
-    pool_name: pool.pool_name,
     admin_email: pool.admin_email,
     pool_id: pool.pool_id
 })
@@ -34,6 +29,7 @@ poolsRouter
             newPool
         )
         .then(pool =>{
+            console.log(pool)
             res.status(201).json(serializePool(pool))
         })
         .catch(next)

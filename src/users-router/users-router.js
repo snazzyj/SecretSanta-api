@@ -36,7 +36,7 @@ usersRouter
                 password: password
             }
             
-            return UsersService.insertUsers(
+            UsersService.insertUsers(
                 req.app.get('db'),
                 user
             )
