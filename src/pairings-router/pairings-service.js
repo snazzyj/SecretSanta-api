@@ -11,17 +11,24 @@ const shuffle = (array) => {
 
 const PairingsService = {
     getAllPairs(knex, pool_id) {
-        return knex.select('*').from('members_pool').where('pool_id', pool_id)
+        return knex.select('giftee.name as giftee', 'gifter.name as gifter', 'gifter.id as id')
+            .from('members_pool')
+            .where('pool_id', pool_id)
+            .join('users as giftee', 'members_pool.giftee', '=', 'giftee.email')
+            .join('users as gifter', 'members_pool.email', '=', 'gifter.email')
+        //giftee : email
+        //email : email
+        //join
     }
     ,
     insertPairs(knex, newPairs) {
         return knex
-        .insert(newPairs)
-        .into('members_pool')
-        .returning('*')
-        .then(rows => {
-            return rows[0]
-        })
+            .insert(newPairs)
+            .into('members_pool')
+            .returning('*')
+            .then(rows => {
+                return rows[0]
+            })
     },
 
     generatePairings(userList) {
@@ -32,7 +39,7 @@ const PairingsService = {
 
         left.forEach((leftUser, i) => {
             let rightUser = right[i]
-            
+
             leftUser.giftee = rightUser.email;
             rightUser.giftee = leftUser.email;
         })

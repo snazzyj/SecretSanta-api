@@ -62,6 +62,7 @@ pairingsRouter
 
     })
     .get((req, res, next) => {
+        console.log('Response pairs: ', res.pairs)
         res.send(res.pairs)
     })
 
