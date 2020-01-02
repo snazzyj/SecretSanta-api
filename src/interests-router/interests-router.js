@@ -10,7 +10,27 @@ const serializeInterest = user => ({
 })
 
 interestsRouter
-    .route('/')
+    .route('/:user_email')
+    .all( (req, res, next) => {
+
+        InterestsService.getInterest(
+            req.app.get('db'),
+            req.params.user_email
+        )
+        .then(interests => {
+            if(!interests) {
+                return res.status(404).json({
+                    error: {message: `Interest doesn't exist`}
+                })
+            }
+            res.interests = interests
+            next();
+        })
+        .catch(next)
+    })
+    .get((req, res, next) => {
+        res.send(res.interests)
+    })
     .post(jsonParser, (req, res, next) => {
         const {interest, email} = req.body;
         const newInterest = {interest, email};
@@ -24,34 +44,15 @@ interestsRouter
         })
         .catch(next)
     })
-
-interestsRouter
-    .route('/:user_email')
-    .all( (req, res, next) => {
-
-        InterestsService.getInterest(
-            req.app.get('db'),
-            req.params.user_email
-        )
-        .then(interest => {
-            if(!interest) {
-                return res.status(404).json({
-                    error: {message: `Interest doesn't exist`}
-                })
-            }
-            res.interest = interest
-            next();
-        })
-        .catch(next)
-    })
-    .get((req, res, next) => {
-        res.send(res.interest)
-    })
-    .delete((req, res, next) => {
-        console.log(req.params.interest)
+    .delete(jsonParser, (req, res, next) => {
+        const interestToDelete = req.body.interest;
+        console.log({interestToDelete})
+        console.log('req body: ', req.body)
+        console.log('req params: ', req.params)
         InterestsService.deleteInterest(
             req.app.get('db'),
-            req.params.interest
+            interestToDelete,
+            req.params.user_email
         )
         .then( () => {
             res.status(204).end()

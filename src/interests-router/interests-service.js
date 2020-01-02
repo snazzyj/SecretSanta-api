@@ -12,15 +12,18 @@ const InterestsService = {
 
     getInterest(knex, email) {
         return knex
-        .select('*')
+        .select('interest')
         .from('user_interests')
         .where('email', email)
     },
 
-    deleteInterest(knex, interest) {
+    deleteInterest(knex, interest, email) {
         return knex
         .from('user_interests')
-        .where('interest', interest)
+        .where({
+            interest : interest,
+            email : email
+        })
         .delete()
     }
 
