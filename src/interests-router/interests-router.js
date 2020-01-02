@@ -45,13 +45,11 @@ interestsRouter
         .catch(next)
     })
     .delete(jsonParser, (req, res, next) => {
-        const interestToDelete = req.body.interest;
-        console.log({interestToDelete})
-        console.log('req body: ', req.body)
-        console.log('req params: ', req.params)
+        const {interest} = req.body.interest;
+
         InterestsService.deleteInterest(
             req.app.get('db'),
-            interestToDelete,
+            interest,
             req.params.user_email
         )
         .then( () => {

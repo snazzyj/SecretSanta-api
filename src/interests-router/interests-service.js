@@ -18,6 +18,7 @@ const InterestsService = {
     },
 
     deleteInterest(knex, interest, email) {
+        console.log(interest)
         return knex
         .from('user_interests')
         .where({
