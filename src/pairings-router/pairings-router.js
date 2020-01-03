@@ -29,6 +29,7 @@ pairingsRouter
             }
 
             console.log({newPairings})
+            //updating / modifying giftee
             PairingsService.insertPairs(
                 req.app.get('db'),
                 newPairings
