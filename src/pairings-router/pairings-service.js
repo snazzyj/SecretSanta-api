@@ -1,12 +1,12 @@
 const shuffle = (array) => {
-    let poolOfNames = [];
-    while (array.length !== poolOfNames.length) {
+    let poolOfUsers = [];
+    while (array.length !== 0) {
         let randomIndex;
         randomIndex = Math.floor(Math.random() * array.length);
-        poolOfNames.push(array[randomIndex]);
-        // array.splice(randomIndex, 1);
+        poolOfUsers.push(array[randomIndex]);
+        array.splice(randomIndex, 1);
     }
-    return poolOfNames;
+    return poolOfUsers;
 }
 
 const PairingsService = {
@@ -16,9 +16,6 @@ const PairingsService = {
             .where('pool_id', pool_id)
             .join('users as giftee', 'members_pool.giftee', '=', 'giftee.email')
             .join('users as gifter', 'members_pool.email', '=', 'gifter.email')
-        //giftee : email
-        //email : email
-        //join
     }
     ,
     insertPairs(knex, newPairs) {
@@ -32,19 +29,20 @@ const PairingsService = {
     },
 
     generatePairings(userList) {
-        const poolOfNames = shuffle(userList);
+        const poolOfUsers = shuffle(userList);
+        let recipients = poolOfUsers.slice();
 
-        let left = poolOfNames.slice(0, poolOfNames.length / 2)
-        let right = poolOfNames.slice(Math.ceil(poolOfNames.length / 2))
+        poolOfUsers.forEach((user) => {
+            let idx = Math.floor(Math.random() * recipients.length);
 
-        left.forEach((leftUser, i) => {
-            let rightUser = right[i]
-
-            leftUser.giftee = rightUser.email;
-            rightUser.giftee = leftUser.email;
+            while (recipients[idx] === user) {
+                idx = Math.floor(Math.random() * recipients.length)
+            }
+            user.giftee = recipients[idx].email
+            recipients.splice(idx, 1)
         })
-
-        return poolOfNames;
+        
+        return poolOfUsers
     }
 
 
