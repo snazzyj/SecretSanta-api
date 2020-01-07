@@ -1,6 +1,7 @@
 const express = require('express');
 const UsersService = require('./users-service');
 const generatePassword = require('password-generator');
+const UserAuthService = require('../auth/user-auth-service');
 
 const usersRouter = express.Router();
 const jsonParser = express.json();
@@ -29,18 +30,21 @@ usersRouter
 
             let password = "";
             password = generatePassword(6, false)
-
-            user = {
-                name: user.name,
-                email: user.email,
-                password: password
-            }
-            
-            UsersService.insertUsers(
-                req.app.get('db'),
-                user
-            )
-
+            // console.log({password})
+            let hashedPass = UserAuthService.hashPassword(password);
+            hashedPass.then(hashedPassword => {
+                console.log({password},{hashedPassword})
+                user = {
+                    name: user.name,
+                    email: user.email,
+                    password: hashedPassword
+                }
+                console.log({user})
+                UsersService.insertUsers(
+                    req.app.get('db'),
+                    user
+                )
+            })
             .then(user => {
                 res.status(201)
             })

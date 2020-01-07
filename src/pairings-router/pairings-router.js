@@ -17,9 +17,7 @@ pairingsRouter
     .post(jsonParser, (req, res, next) => {
         const {users, pool_id} = req.body;
         const poolOfNames  = PairingsService.generatePairings(users);
-        console.log({users})
 
-        console.log({poolOfNames})
         poolOfNames.map((pair) => {
             const newPairings = {
                 pool_id,

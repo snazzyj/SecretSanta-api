@@ -40,17 +40,27 @@ userAuthRouter
                                 error: 'Incorrect email or password'
                             })
 
-                        const sub = dbUser.email;
-                        const payload = { user_id: dbUser.id };
-                        const user = {
-                            id : dbUser.id,
-                            email : dbUser.email,
-                            name : dbUser.name
-                        }
-                        res.send({
-                            authToken: UserAuthService.createJwt(sub, payload),
-                            user
-                        })
+                        let pool_id = UserAuthService.getPoolId(
+                            req.app.get('db'),
+                            dbUser.email
+                        )
+                        .then(id => {
+                                // console.log(id)
+                                
+                                const sub = dbUser.email;
+                                const payload = { user_id: dbUser.id };
+                                const user = {
+                                    id: dbUser.id,
+                                    email: dbUser.email,
+                                    name: dbUser.name,
+                                    pool_id: id
+                                }
+                                res.send({
+                                    authToken: UserAuthService.createJwt(sub, payload),
+                                    user
+                                })
+                        });
+
                     })
             })
             .catch(next)
@@ -65,28 +75,28 @@ userAuthRouter
             req.app.get('db'),
             email
         )
-        .then(hasUserWithEmail => {
-            if(hasUserWithEmail) {
-                return res.status(400).json({error: `Email already taken`})
-            }
+            .then(hasUserWithEmail => {
+                if (hasUserWithEmail) {
+                    return res.status(400).json({ error: `Email already taken` })
+                }
 
-            return UserAuthService.hashPassword(password)
-                .then(hashedPassword => {
-                    const newUser = {
-                        email,
-                        password: hashedPassword,
-                        name
-                    }
+                return UserAuthService.hashPassword(password)
+                    .then(hashedPassword => {
+                        const newUser = {
+                            email,
+                            password: hashedPassword,
+                            name
+                        }
 
-                    return UserAuthService.insertUser(
-                           req.app.get('db'),
-                           newUser
+                        return UserAuthService.insertUser(
+                            req.app.get('db'),
+                            newUser
                         )
-                        .then(user => {
-                            res.status(201).json(serializeUser(user))
-                        })
-                })
-        })
+                            .then(user => {
+                                res.status(201).json(serializeUser(user))
+                            })
+                    })
+            })
             .catch(next)
     })
 

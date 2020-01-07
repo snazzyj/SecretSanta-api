@@ -42,6 +42,10 @@ const UserAuthService = {
 
     hashPassword(password) {
         return bcrypt.hash(password, 12)
+    },
+
+    getPoolId(knex, email) {
+        return knex.select('pool_id').from('members_pool').where('email', email)
     }
 }
 
