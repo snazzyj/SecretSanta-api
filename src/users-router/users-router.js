@@ -26,26 +26,29 @@ usersRouter
     .post(jsonParser, (req, res, next) => {
         const {users} = req.body;
 
+        //filter users by email to see who already has an account       
+
         users.forEach((user) => {
 
             let password = "";
             password = generatePassword(6, false)
-            // console.log({password})
+
             let hashedPass = UserAuthService.hashPassword(password);
             hashedPass.then(hashedPassword => {
-                console.log({password},{hashedPassword})
+
                 user = {
                     name: user.name,
                     email: user.email,
                     password: hashedPassword
                 }
-                console.log({user})
+                // console.log({user})
                 UsersService.insertUsers(
                     req.app.get('db'),
                     user
                 )
             })
             .then(user => {
+                console.log({password},{user})
                 res.status(201)
             })
             .catch(next)
@@ -76,31 +79,5 @@ usersRouter
         console.log("user in GET request", res.user)
         res.send(res.user)
     })
-
-usersRouter
-    .route('/email/:user_email')
-    .all((req, res, next) => {
-       
-        UsersService.getByEmail(
-            req.app.get('db'),
-            req.params.user_email
-        )
-        .then(user => {
-            console.log("user:", user)
-            if (!user) {
-                return res.status(404).json({
-                    error: {message: `User doesn't exist`}
-                })
-            }
-            res.user = user;
-            next();
-        })
-        .catch(next)
-    })
-    .get((req, res, next) => {
-        console.log("user in GET request", res.user)
-        res.send(res.user)
-    })
-
 
 module.exports = usersRouter;

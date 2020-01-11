@@ -16,9 +16,8 @@ const PairingsService = {
             .where('pool_id', pool_id)
             .join('users as giftee', 'members_pool.giftee', '=', 'giftee.email')
             .join('users as gifter', 'members_pool.email', '=', 'gifter.email')
-    }
-    ,
-    insertPairs(knex, newPairs) {
+    },
+    insertPair(knex, newPairs) {
         return knex
             .insert(newPairs)
             .into('members_pool')
@@ -27,7 +26,11 @@ const PairingsService = {
                 return rows[0]
             })
     },
-
+    getGifteeName(knex, pair) {
+        return knex.select('name')
+            .from('users')
+            .where('email', pair.giftee)
+    },
     generatePairings(userList) {
         const poolOfUsers = shuffle(userList);
         let recipients = poolOfUsers.slice();
