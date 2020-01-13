@@ -8,7 +8,7 @@ const usersRouter = require('./users-router/users-router');
 const poolsRouter = require('./pools-router/pools-router');
 const pairingRouter = require('./pairings-router/pairings-router');
 const interestsRouter = require('./interests-router/interests-router');
-const verifyRouter = require('./verify-router/verify');
+const verifyRouter = require('./verify-router/verify-router');
 const userAuth = require('./auth/user-auth');
 
 const app = express();

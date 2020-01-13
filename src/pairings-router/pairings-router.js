@@ -40,6 +40,7 @@ pairingsRouter
                         newPairings.confirmation_code
                     )
                 })
+                .catch(next)
 
             // console.log({newPairings})
             //updating / modifying giftee
