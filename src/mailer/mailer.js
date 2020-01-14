@@ -2,9 +2,6 @@ const config = require('../config')
 const nodemailer = require('nodemailer')
 const MailerService = require('./mailer-service');
 
-
-
-
 const Mailer = {
     async sendMail(gifteeName, pair, pool_id, confirmationCode) {
 
