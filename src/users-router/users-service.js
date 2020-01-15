@@ -31,7 +31,10 @@ const UsersService = {
         .where('email', user.email)
         .then(rows => {
             console.log({rows})
-            if (rows.length === 0) {
+            console.log(rows.length)
+            if (rows.length !== 0) {
+                return rows[0]
+            } else {
                 return knex
                     .insert(user)
                     .into('users')
