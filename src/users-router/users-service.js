@@ -17,29 +17,13 @@ const UsersService = {
     },
 
     insertUsers(knex, user) {
-        // return knex
-        // .insert(users)
-        // .into('users')
-        // .returning('*')
-        // .then(rows => {
-        //     console.log({rows})
-        //     return rows[0]
-        // })
-
         return knex
-        .from('users')
-        .where('email', user.email)
+        .insert(user)
+        .into('users')
+        .returning('*')
         .then(rows => {
             console.log({rows})
-            console.log(rows.length)
-            if (rows.length !== 0) {
-                return rows[0]
-            } else {
-                return knex
-                    .insert(user)
-                    .into('users')
-                    .returning('*')
-            }
+            return rows[0]
         })
     }
 }

@@ -25,34 +25,43 @@ usersRouter
     })
     .post(jsonParser, (req, res, next) => {
         const { users } = req.body;
+        let filteredUsers = users;
 
         //filter users by email to see who already has an account
-
-        users.forEach((user) => {
-
-            let password = "";
-            password = generatePassword(6, false)
-
-            let hashedPass = UserAuthService.hashPassword(password);
-            hashedPass.then(hashedPassword => {
-
-                newUser = {
-                    name: user.name,
-                    email: user.email,
-                    password: hashedPassword
-                }
-                // console.log({user})
-                UsersService.insertUsers(
-                    req.app.get('db'),
-                    newUser
-                )
+        UsersService.getAllUsers(req.app.get('db'))
+            .then(dbUsers => {
+               return filteredUsers = users.filter(user => 
+                !dbUsers.some(dbUser => (dbUser.id === user.id)
+                ))
             })
-                .then(user => {
-                    console.log({ password }, { user })
-                    res.status(201)
+            .then(newUsers => {
+
+                newUsers.forEach((user) => {
+        
+                    let password = "";
+                    password = generatePassword(6, false)
+        
+                    let hashedPass = UserAuthService.hashPassword(password);
+                    hashedPass.then(hashedPassword => {
+        
+                        newUser = {
+                            name: user.name,
+                            email: user.email,
+                            password: hashedPassword
+                        }
+
+                        return UsersService.insertUsers(
+                            req.app.get('db'),
+                            newUser
+                        )
+                    })
+                        .then(user => {
+                            console.log({ password }, { user })
+                            res.status(201)
+                        })
+                        .catch(next)
                 })
-                .catch(next)
-        })
+            })
     })
 
 usersRouter
