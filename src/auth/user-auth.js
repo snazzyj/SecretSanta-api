@@ -71,15 +71,13 @@ userAuthRouter
     .route('/register')
     .post(jsonParser, (req, res, next) => {
         const { email, password, name } = req.body;
-        UserAuthService.hasUserWithEmail(
+
+        UserAuthService.getUserWithEmail(
             req.app.get('db'),
             email
         )
-            .then(hasUserWithEmail => {
-                if (hasUserWithEmail) {
-                    return res.status(400).json({ error: `Email already taken` })
-                }
-
+        .then(user => {
+            if(!user) {
                 return UserAuthService.hashPassword(password)
                     .then(hashedPassword => {
                         const newUser = {
@@ -87,17 +85,66 @@ userAuthRouter
                             password: hashedPassword,
                             name
                         }
-
+                        console.log({newUser})
                         return UserAuthService.insertUser(
                             req.app.get('db'),
                             newUser
                         )
-                            .then(user => {
-                                res.status(201).json(serializeUser(user))
-                            })
+                        .then(user => {
+                            res.status(201).json(serializeUser(user))
+                        })
                     })
-            })
-            .catch(next)
+            }
+            return UserAuthService.hashPassword(password)
+                .then(hashedPassword => {
+                    const updateUser = {
+                        email,
+                        password: hashedPassword,
+                        name
+                    }
+                    return UserAuthService.updateUser(
+                        req.app.get('db'),
+                        updateUser
+                    )
+                })
+                    .then(user => {
+                        console.log({user})
+                        res.status(201).json(serializeUser(user))
+                    })
+        })
+        .catch(next)
+
+
+
+        // UserAuthService.hasUserWithEmail(
+        //     req.app.get('db'),
+        //     email
+        // )
+        //     .then(hasUserWithEmail => {
+        //         // if (hasUserWithEmail) {
+        //         //     return res.status(400).json({ error: `Email already taken` })
+        //         // }
+
+        //         return UserAuthService.hashPassword(password)
+        //             .then(hashedPassword => {
+        //                 const newUser = {
+        //                     email,
+        //                     password: hashedPassword,
+        //                     name
+        //                 }
+
+        //                 return UserAuthService.insertUser(
+        //                     req.app.get('db'),
+        //                     newUser
+        //                 )
+        //                     .then(user => {
+        //                         res.status(201).json(serializeUser(user))
+        //                     })
+        //             })
+        //     })
+        //     .catch(next)
+
+        
     })
 
 module.exports = userAuthRouter;

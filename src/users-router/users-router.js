@@ -1,7 +1,8 @@
 const express = require('express');
-const UsersService = require('./users-service');
 const generatePassword = require('password-generator');
+const UsersService = require('./users-service');
 const UserAuthService = require('../auth/user-auth-service');
+const MailerService = require('../mailer/mailer-service');
 
 const usersRouter = express.Router();
 const jsonParser = express.json();
@@ -36,19 +37,13 @@ usersRouter
             })
             .then(newUsers => {
 
-                newUsers.forEach((user) => {
-        
-                    let password = "";
-                    password = generatePassword(6, false)
-        
-                    let hashedPass = UserAuthService.hashPassword(password);
-                    hashedPass.then(hashedPassword => {
+                //OPTION B: DON'T SEND A PASSWORD AND HAVE THE USER SIGNUP THEMSELVES.
+                newUsers.forEach((user) => { 
         
                         newUser = {
                             name: user.name,
-                            email: user.email,
-                            password: hashedPassword
-                        }
+                            email: user.email
+                        }                    
 
                         return UsersService.insertUsers(
                             req.app.get('db'),
@@ -56,13 +51,11 @@ usersRouter
                         )
                     })
                         .then(user => {
-                            console.log({ password }, { user })
                             res.status(201)
                         })
                         .catch(next)
                 })
             })
-    })
 
 usersRouter
     .route('/:user_id')

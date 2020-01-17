@@ -1,9 +1,8 @@
 const config = require('../config')
 const nodemailer = require('nodemailer')
-const MailerService = require('./mailer-service');
 
 const Mailer = {
-    async sendMail(gifteeName, pair, pool_id, confirmationCode) {
+    async sendMail(gifteeName, user, pool_id, confirmationCode) {
 
         const url = `http://localhost:3000/api/verify/${pool_id}`
 
@@ -19,7 +18,7 @@ const Mailer = {
 
         let helperOptions = {
             from: ' "Secret Santa" <secret.santa.pairings@gmail.com> ',
-            to: pair.email,
+            to: user.email,
             subject: 'Hello World!',
             html: `
             <p>You got <strong>${gifteeName[0].name}</strong> for Secret Santa!</p>
@@ -32,8 +31,8 @@ const Mailer = {
             if (error) {
                 return console.log(error);
             }
-            console.log('message was sent!')
-            console.log(info)
+            // console.log('message was sent!')
+            // console.log(info)
         })
 
     }

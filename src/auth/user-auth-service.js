@@ -31,6 +31,16 @@ const UserAuthService = {
             return rows[0]
         })
     },
+    updateUser(knex, newUser) {
+        return knex.from('users')
+            .where({
+                email: newUser.email
+            })
+            .update({
+                name: newUser.name,
+                password: newUser.password,
+            })
+    },
 
     hasUserWithEmail(knex, email) {
         return knex
