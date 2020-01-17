@@ -40,7 +40,7 @@ userAuthRouter
                                 error: 'Incorrect email or password'
                             })
 
-                        let pool_id = UserAuthService.getPoolId(
+                        UserAuthService.getPoolId(
                             req.app.get('db'),
                             dbUser.email
                         )
@@ -112,39 +112,7 @@ userAuthRouter
                         res.status(201).json(serializeUser(user))
                     })
         })
-        .catch(next)
-
-
-
-        // UserAuthService.hasUserWithEmail(
-        //     req.app.get('db'),
-        //     email
-        // )
-        //     .then(hasUserWithEmail => {
-        //         // if (hasUserWithEmail) {
-        //         //     return res.status(400).json({ error: `Email already taken` })
-        //         // }
-
-        //         return UserAuthService.hashPassword(password)
-        //             .then(hashedPassword => {
-        //                 const newUser = {
-        //                     email,
-        //                     password: hashedPassword,
-        //                     name
-        //                 }
-
-        //                 return UserAuthService.insertUser(
-        //                     req.app.get('db'),
-        //                     newUser
-        //                 )
-        //                     .then(user => {
-        //                         res.status(201).json(serializeUser(user))
-        //                     })
-        //             })
-        //     })
-        //     .catch(next)
-
-        
+        .catch(next)        
     })
 
 module.exports = userAuthRouter;

@@ -31,6 +31,7 @@ const UserAuthService = {
             return rows[0]
         })
     },
+
     updateUser(knex, newUser) {
         return knex.from('users')
             .where({
@@ -41,15 +42,7 @@ const UserAuthService = {
                 password: newUser.password,
             })
     },
-
-    hasUserWithEmail(knex, email) {
-        return knex
-        .from('users').
-        where('email', email)
-        .first().
-        then(user => !!user)
-    },
-
+    
     hashPassword(password) {
         return bcrypt.hash(password, 12)
     },

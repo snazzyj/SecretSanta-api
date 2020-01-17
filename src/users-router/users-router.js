@@ -26,36 +26,44 @@ usersRouter
     })
     .post(jsonParser, (req, res, next) => {
         const { users } = req.body;
-        let filteredUsers = users;
 
         //filter users by email to see who already has an account
         UsersService.getAllUsers(req.app.get('db'))
             .then(dbUsers => {
-               return filteredUsers = users.filter(user => 
-                !dbUsers.some(dbUser => (dbUser.id === user.id)
-                ))
+                // users.filter(user =>
+                //     !dbUsers.find(dbUser => (dbUser.id === user.id)
+                //     ))
+                // return users;
+
+                const filteredUsers = users.filter(user =>
+                    !dbUsers.find(dbUser => (dbUser.email === user.email))
+                    )
+                return filteredUsers
+                    
             })
             .then(newUsers => {
+                console.log({ newUsers })
 
                 //OPTION B: DON'T SEND A PASSWORD AND HAVE THE USER SIGNUP THEMSELVES.
-                newUsers.forEach((user) => { 
-        
-                        newUser = {
-                            name: user.name,
-                            email: user.email
-                        }                    
+                newUsers.forEach((user) => {
 
-                        return UsersService.insertUsers(
-                            req.app.get('db'),
-                            newUser
-                        )
+                    newUser = {
+                        name: user.name,
+                        email: user.email
+                    }
+
+                    return UsersService.insertUsers(
+                        req.app.get('db'),
+                        newUser
+                    )
+                    .then(user => {
+                        console.log({user})
+                        res.status(201)
                     })
-                        .then(user => {
-                            res.status(201)
-                        })
-                        .catch(next)
                 })
             })
+            .catch(next)
+    })
 
 usersRouter
     .route('/:user_id')

@@ -17,6 +17,7 @@ pairingsRouter
     .route('/')
     .post(jsonParser, (req, res, next) => {
         const { users, pool_id } = req.body;
+        console.log('Pairings Router: ', users)
         const poolOfUsers = PairingsService.generatePairings(users);
 
         poolOfUsers.forEach((pair) => {
@@ -60,6 +61,7 @@ pairingsRouter
     .route('/:pool_id')
     .all((req, res, next) => {
 
+        console.log(req.body)
         PairingsService.getAllPairs(
             req.app.get('db'),
             req.params.pool_id
