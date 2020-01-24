@@ -45,7 +45,7 @@ userAuthRouter
                             dbUser.email
                         )
                         .then(id => {
-                                console.log(id)
+                                console.log({id})
                                 
                                 const sub = dbUser.email;
                                 const payload = { user_id: dbUser.id };
