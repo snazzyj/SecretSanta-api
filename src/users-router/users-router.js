@@ -42,9 +42,7 @@ usersRouter
                     
             })
             .then(newUsers => {
-                console.log({ newUsers })
 
-                //OPTION B: DON'T SEND A PASSWORD AND HAVE THE USER SIGNUP THEMSELVES.
                 newUsers.forEach((user) => {
 
                     newUser = {

@@ -61,7 +61,6 @@ pairingsRouter
     .route('/:pool_id')
     .all((req, res, next) => {
 
-        console.log(req.body)
         PairingsService.getAllPairs(
             req.app.get('db'),
             req.params.pool_id
