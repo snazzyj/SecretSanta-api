@@ -40,32 +40,53 @@ userAuthRouter
                                 error: 'Incorrect email or password'
                             })
 
-                        UserAuthService.getPoolId(
+                        UserAuthService.getPoolData(
                             req.app.get('db'),
                             dbUser.email
                         )
-                        .then(id => {
-                                console.log({id})
-                                
-                                const sub = dbUser.email;
-                                const payload = { user_id: dbUser.id };
-                                const user = {
-                                    id: dbUser.id,
-                                    email: dbUser.email,
-                                    name: dbUser.name,
-                                    pool_id: id
-                                }
-                                res.send({
-                                    authToken: UserAuthService.createJwt(sub, payload),
-                                    user
+                            .then(poolData => {
+                                const userPairData = poolData
+                                const pairs = [];
+
+                                userPairData.forEach(pool_id => {
+                                    UserAuthService.getUserPairs(
+                                        req.app.get('db'),
+                                        dbUser.email,
+                                        pool_id
+                                    )
+                                        .then(userPairs => {
+                                            pairs.push(userPairs[0])
+                                            if (pairs.length === poolData.length) {
+
+                                                const sub = dbUser.email;
+                                                const payload = { user_id: dbUser.id };
+                                                const user = {
+                                                    id: dbUser.id,
+                                                    email: dbUser.email,
+                                                    name: dbUser.name,
+                                                    pairData: pairs,
+                                                    poolData
+                                                }
+                                                res.send({
+                                                    authToken: UserAuthService.createJwt(sub, payload),
+                                                    user
+                                                })
+                                            }
+                                        })
+
                                 })
-                        });
+
+                            })
+
 
                     })
+
+
             })
             .catch(next)
-
     })
+
+    
 
 userAuthRouter
     .route('/register')
@@ -76,43 +97,43 @@ userAuthRouter
             req.app.get('db'),
             email
         )
-        .then(user => {
-            if(!user) {
+            .then(user => {
+                if (!user) {
+                    return UserAuthService.hashPassword(password)
+                        .then(hashedPassword => {
+                            const newUser = {
+                                email,
+                                password: hashedPassword,
+                                name
+                            }
+                            console.log({ newUser })
+                            return UserAuthService.insertUser(
+                                req.app.get('db'),
+                                newUser
+                            )
+                                .then(user => {
+                                    res.status(201).json(serializeUser(user))
+                                })
+                        })
+                }
                 return UserAuthService.hashPassword(password)
                     .then(hashedPassword => {
-                        const newUser = {
+                        const updateUser = {
                             email,
                             password: hashedPassword,
                             name
                         }
-                        console.log({newUser})
-                        return UserAuthService.insertUser(
+                        return UserAuthService.updateUser(
                             req.app.get('db'),
-                            newUser
+                            updateUser
                         )
-                        .then(user => {
-                            res.status(201).json(serializeUser(user))
-                        })
                     })
-            }
-            return UserAuthService.hashPassword(password)
-                .then(hashedPassword => {
-                    const updateUser = {
-                        email,
-                        password: hashedPassword,
-                        name
-                    }
-                    return UserAuthService.updateUser(
-                        req.app.get('db'),
-                        updateUser
-                    )
-                })
                     .then(user => {
-                        console.log({user})
+                        console.log({ user })
                         res.status(201).json(serializeUser(user))
                     })
-        })
-        .catch(next)        
+            })
+            .catch(next)
     })
 
 module.exports = userAuthRouter;

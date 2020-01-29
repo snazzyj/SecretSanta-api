@@ -30,10 +30,6 @@ usersRouter
         //filter users by email to see who already has an account
         UsersService.getAllUsers(req.app.get('db'))
             .then(dbUsers => {
-                // users.filter(user =>
-                //     !dbUsers.find(dbUser => (dbUser.id === user.id)
-                //     ))
-                // return users;
 
                 const filteredUsers = users.filter(user =>
                     !dbUsers.find(dbUser => (dbUser.email === user.email))
@@ -59,6 +55,8 @@ usersRouter
                         res.status(201)
                     })
                 })
+
+                res.send({users})
             })
             .catch(next)
     })

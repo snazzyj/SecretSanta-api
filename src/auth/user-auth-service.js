@@ -47,8 +47,15 @@ const UserAuthService = {
         return bcrypt.hash(password, 12)
     },
 
-    getPoolId(knex, email) {
-        return knex.select('pool_id').from('members_pool').where('email', email)
+    getPoolData(knex, email) {
+        return knex.select('pool_id', 'pool_name').from('pool_table').where('admin_email', email)
+    },
+    getUserPairs(knex, email, pool_id) {
+        return knex.select('giftee.name as giftee', 'giftee.id as giftee_id')
+        .from('members_pool')
+        .where('pool_id', pool_id.pool_id)
+        .where('members_pool.email', email)
+        .join('users as giftee', 'members_pool.giftee', '=', 'giftee.email')
     }
 }
 

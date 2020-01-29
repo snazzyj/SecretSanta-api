@@ -16,43 +16,53 @@ const serializePairings = pair => ({
 pairingsRouter
     .route('/')
     .post(jsonParser, (req, res, next) => {
-        const { users, pool_id } = req.body;
-        console.log('Pairings Router: ', users)
-        const poolOfUsers = PairingsService.generatePairings(users);
+        const {users, admin_email, pool_name} = req.body;
+        const newPool = {admin_email, pool_name}
+        const poolOfUsers = PairingsService.generatePairings(users)
 
-        poolOfUsers.forEach((pair) => {
-            const newPairings = {
-                pool_id,
-                email: pair.email,
-                giftee: pair.giftee,
-                confirmation: false,
-                confirmation_code: MailerService.generateCode(), 
-            }
+        PairingsService.insertPool(
+            req.app.get('db'),
+            newPool
+        )
+        .then(pool => {
+            const {pool_id} = pool;
 
-            PairingsService.getGifteeName(
-                req.app.get('db'),
-                newPairings
-            )
-                .then(gifteeName => {
-                    Mailer.sendMail(
-                        gifteeName,
+            poolOfUsers.forEach((pair) => {
+                const newPairings = {
+                    pool_id,
+                    email: pair.email,
+                    giftee: pair.giftee,
+                    confirmation: false,
+                    confirmation_code: MailerService.generateCode()
+                }
+                console.log({newPairings})
+                PairingsService.getGifteeName(
+                    req.app.get('db'),
+                    pair.giftee
+                )
+                .then(gifteeName => {      
+                    const userMailInfo = {
+                        gifteeName: gifteeName[0].name,
                         pair,
                         pool_id,
-                        newPairings.confirmation_code
+                        confirmationCode: newPairings.confirmation_code
+                    }
+                    Mailer.sendMail(
+                        userMailInfo
                     )
                 })
-                .catch(next)
 
-            // console.log({newPairings})
-            //updating / modifying giftee
-            PairingsService.insertPair(
-                req.app.get('db'),
-                newPairings
-            )
-                .then(pair => {
+                PairingsService.insertPair(
+                    req.app.get('db'),
+                    newPairings
+                )
+                .then(result => {
                     res.status(201)
                 })
                 .catch(next)
+            })
+            res.send({pool_id})
+            res.end()
         })
 
     })

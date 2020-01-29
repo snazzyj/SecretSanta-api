@@ -26,10 +26,11 @@ const PairingsService = {
                 return rows[0]
             })
     },
-    getGifteeName(knex, pair) {
+    getGifteeName(knex, email) {
+        console.log({email})
         return knex.select('name')
             .from('users')
-            .where('email', pair.giftee)
+            .where('email', email)
     },
     generatePairings(userList) {
         const poolOfUsers = shuffle(userList);
@@ -46,6 +47,19 @@ const PairingsService = {
         })
         
         return poolOfUsers
+    },
+    insertPool(knex, newPool) {
+        return knex
+        .into('pool_table')
+        .insert(newPool)
+        .returning('*')
+        .then(rows => {
+            return rows[0]
+        })
+    },
+
+    getAllPools(knex) {
+        return knex.select('*').from('pool_table')
     }
 
 
