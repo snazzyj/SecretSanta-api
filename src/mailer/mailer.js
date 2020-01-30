@@ -33,8 +33,6 @@ const Mailer = {
             if (error) {
                 return console.log(error);
             }
-            // console.log('message was sent!')
-            // console.log(info)
         })
 
     }

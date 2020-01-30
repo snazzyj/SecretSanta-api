@@ -35,7 +35,6 @@ pairingsRouter
                     confirmation: false,
                     confirmation_code: MailerService.generateCode()
                 }
-                console.log({newPairings})
                 PairingsService.getGifteeName(
                     req.app.get('db'),
                     pair.giftee
@@ -68,12 +67,12 @@ pairingsRouter
     })
 
 pairingsRouter
-    .route('/:pool_id')
+    .route('/:poolId')
     .all((req, res, next) => {
 
         PairingsService.getAllPairs(
             req.app.get('db'),
-            req.params.pool_id
+            req.params.poolId
         )
             .then(pairs => {
                 if (!pairs) {
@@ -88,7 +87,6 @@ pairingsRouter
 
     })
     .get((req, res, next) => {
-        console.log('Response pairs: ', res.pairs)
         res.send(res.pairs)
     })
 

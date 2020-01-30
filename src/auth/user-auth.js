@@ -16,12 +16,6 @@ userAuthRouter
         const { email, password } = req.body;
         const loginUser = { email, password };
 
-        for (const [key, value] of Object.entries(loginUser))
-            if (value == null)
-                return res.status(400).json({
-                    error: `Missing '${key}' in request body`
-                })
-
         UserAuthService.getUserWithEmail(
             req.app.get('db'),
             loginUser.email
@@ -40,42 +34,44 @@ userAuthRouter
                                 error: 'Incorrect email or password'
                             })
 
-                        UserAuthService.getPoolData(
+                        UserAuthService.getUserPairs(
                             req.app.get('db'),
                             dbUser.email
                         )
-                            .then(poolData => {
-                                const userPairData = poolData
-                                const pairs = [];
-
-                                userPairData.forEach(pool_id => {
-                                    UserAuthService.getUserPairs(
-                                        req.app.get('db'),
-                                        dbUser.email,
-                                        pool_id
-                                    )
-                                        .then(userPairs => {
-                                            pairs.push(userPairs[0])
-                                            if (pairs.length === poolData.length) {
-
-                                                const sub = dbUser.email;
-                                                const payload = { user_id: dbUser.id };
-                                                const user = {
-                                                    id: dbUser.id,
-                                                    email: dbUser.email,
-                                                    name: dbUser.name,
-                                                    pairData: pairs,
-                                                    poolData
-                                                }
-                                                res.send({
-                                                    authToken: UserAuthService.createJwt(sub, payload),
-                                                    user
-                                                })
+                            .then(userPairs => {
+                                UserAuthService.isAdmin(
+                                    req.app.get('db'),
+                                    dbUser.email
+                                )
+                                    .then(data => {
+                                        const sub = dbUser.email;
+                                        const payload = { user_id: dbUser.id };
+                                        if (data.length !== 0) {
+                                            const user = {
+                                                id: dbUser.id,
+                                                email: dbUser.email,
+                                                name: dbUser.name,
+                                                pairData: userPairs,
+                                                poolData: data
                                             }
-                                        })
-
-                                })
-
+                                            res.send({
+                                                authToken: UserAuthService.createJwt(sub, payload),
+                                                user
+                                            })
+                                        } else {
+                                            const user = {
+                                                id: dbUser.id,
+                                                email: dbUser.email,
+                                                name: dbUser.name,
+                                                pairData: userPairs,
+                                                poolData: []
+                                            }
+                                            res.send({
+                                                authToken: UserAuthService.createJwt(sub, payload),
+                                                user
+                                            })
+                                        }
+                                    })
                             })
 
 
@@ -86,7 +82,7 @@ userAuthRouter
             .catch(next)
     })
 
-    
+
 
 userAuthRouter
     .route('/register')
@@ -106,7 +102,6 @@ userAuthRouter
                                 password: hashedPassword,
                                 name
                             }
-                            console.log({ newUser })
                             return UserAuthService.insertUser(
                                 req.app.get('db'),
                                 newUser
@@ -129,7 +124,6 @@ userAuthRouter
                         )
                     })
                     .then(user => {
-                        console.log({ user })
                         res.status(201).json(serializeUser(user))
                     })
             })

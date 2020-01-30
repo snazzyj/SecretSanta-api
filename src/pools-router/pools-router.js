@@ -29,7 +29,6 @@ poolsRouter
             newPool
         )
         .then(pool =>{
-            console.log(pool)
             res.status(201).json(serializePool(pool))
         })
         .catch(next)

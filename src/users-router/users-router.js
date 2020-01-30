@@ -51,7 +51,6 @@ usersRouter
                         newUser
                     )
                     .then(user => {
-                        console.log({user})
                         res.status(201)
                     })
                 })

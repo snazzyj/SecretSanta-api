@@ -11,7 +11,7 @@ const shuffle = (array) => {
 
 const PairingsService = {
     getAllPairs(knex, pool_id) {
-        return knex.select('giftee.name as giftee', 'gifter.name as gifter', 'gifter.id as id', 'giftee.id as giftee_id')
+        return knex.select('giftee.name as giftee', 'gifter.name as gifter', 'gifter.id as id', 'giftee.id as giftee_id', 'confirmation')
             .from('members_pool')
             .where('pool_id', pool_id)
             .join('users as giftee', 'members_pool.giftee', '=', 'giftee.email')
@@ -27,7 +27,6 @@ const PairingsService = {
             })
     },
     getGifteeName(knex, email) {
-        console.log({email})
         return knex.select('name')
             .from('users')
             .where('email', email)

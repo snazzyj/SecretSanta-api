@@ -8,7 +8,6 @@ verifyRouter
     .route('/:pool_id')
     .patch(jsonParser, (req, res, next) => {
         const userCode = req.body.code
-        // const userCode = "123";
             
         VerifyService.updateConfirmation(
             req.app.get('db'),
@@ -20,8 +19,9 @@ verifyRouter
                 res.status(404).json({
                     error: 'Verification Code not found'
                 })
+            } else {
+                res.status(200).send({confirmation: true})
             }
-            res.status(204).end()
         })
         .catch(next)
             
