@@ -4,7 +4,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const {NODE_ENV} = require('./config');
-const {CLIENT_ORIGIN} = require('./config')
 const usersRouter = require('./users-router/users-router');
 const poolsRouter = require('./pools-router/pools-router');
 const pairingRouter = require('./pairings-router/pairings-router');
@@ -42,7 +41,7 @@ app.use(function errorHandler(error, req, res, next) {
     let response;
 
     if(NODE_ENV === 'production') {
-        response = {error: {message: 'server error'}}
+        response = {error: {message: error}}
     } else {
         response = {message: error.message, error}
     }
