@@ -3,7 +3,7 @@ const knex = require('knex');
 const app = require('../src/app');
 const {makeUsersArray, makeInterestsArray} = require('./user.fixtures')
 
-describe.only('Interests Endpoints', function () {
+describe('Interests Endpoints', function () {
 
     let db;
 

@@ -16,6 +16,14 @@ userAuthRouter
         const { email, password } = req.body;
         const loginUser = { email, password };
 
+        for (const [key, value] of Object.entries(loginUser)) {
+            if (value == null) {
+              return res.status(400).json({
+                error: { message: `Missing '${key}' in request body` }
+              })
+            }
+          }
+
         UserAuthService.getUserWithEmail(
             req.app.get('db'),
             loginUser.email

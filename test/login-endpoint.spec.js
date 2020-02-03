@@ -41,10 +41,10 @@ describe('Login Endpoints', function() {
                     delete loginAttemptBody[field];
 
                     return supertest(app)
-                        .post('/api/login/')
+                        .post('/api/auth/login')
                         .send(loginAttemptBody)
                         .expect(400, {
-                            error: `Missing '${field}' in request body`
+                            error: { message: `Missing '${field}' in request body` }
                         })
                 })
             })
@@ -53,15 +53,17 @@ describe('Login Endpoints', function() {
                 const invalidUserEmail = {email: 'user-not', password: 'existy'};
 
                 return supertest(app)
-                    .post('/api/login')
+                    .post('/api/auth/login')
                     .send(invalidUserEmail)
-                    .expect(400, {error: `Incorrect email or password`})
+                    .expect(400, {
+                        error: `Incorrect email or password`
+                    })
             })
             it(`responds with 400 'invalid email or password' when bad password`, () => {
                 const invalidUserPass = {email: testUser.email, password: 'existy'};
 
                 return supertest(app)
-                    .post('/api/login')
+                    .post('/api/auth/login')
                     .send(invalidUserPass)
                     .expect(400, {error: `Incorrect email or password`})
             })
@@ -70,6 +72,14 @@ describe('Login Endpoints', function() {
                 const userValidCreds = {
                     email: testUser.email,
                     password: 'Password123'
+                }
+
+                const user = {
+                    email: testUser.email,
+                    id: testUser.id,
+                    name: testUser.name,
+                    pairData: [],
+                    poolData: []
                 }
 
                 const expectedToken = jwt.sign(
@@ -82,10 +92,11 @@ describe('Login Endpoints', function() {
                 )
 
                 return supertest(app)
-                    .post('/api/login/')
+                    .post('/api/auth/login')
                     .send(userValidCreds)
                     .expect(200, {
-                        authToken: expectedToken
+                        authToken: expectedToken,
+                        user
                     })
             })
 
