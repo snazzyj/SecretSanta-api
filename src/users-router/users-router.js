@@ -69,7 +69,6 @@ usersRouter
             req.params.user_id
         )
             .then(user => {
-                console.log("user:", user)
                 if (!user) {
                     return res.status(404).json({
                         error: { message: `User doesn't exist` }
@@ -81,7 +80,6 @@ usersRouter
             .catch(next)
     })
     .get((req, res, next) => {
-        console.log("user in GET request", res.user)
         res.send(res.user)
     })
 

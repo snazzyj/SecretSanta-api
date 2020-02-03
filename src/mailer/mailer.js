@@ -33,7 +33,7 @@ const Mailer = {
 
         transporter.sendMail(helperOptions, (error, info) => {
             if (error) {
-                return console.log(error);
+                return error;
             }
         })
 

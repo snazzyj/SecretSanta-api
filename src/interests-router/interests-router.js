@@ -35,14 +35,11 @@ interestsRouter
         const {interest, email} = req.body;
         const newInterest = {interest, email};
 
-        console.log(newInterest)
-
         InterestsService.insertInterest(
             req.app.get('db'),
             newInterest
         )
         .then(interest => {
-            console.log(interest)
             res.status(201).json(serializeInterest(interest))
         })
         .catch(next)
