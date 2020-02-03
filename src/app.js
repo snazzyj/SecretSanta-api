@@ -20,9 +20,7 @@ const morganOption = (NODE_ENV === 'production')
 
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(cors({
-    origin: CLIENT_ORIGIN
-}));
+app.use(cors());
 
 app.use('/api/users', usersRouter); // locates user profile
 app.use('/api/pools', poolsRouter); //post req for creating pool
