@@ -4,5 +4,6 @@ module.exports = {
     TEST_DB_URL: process.env.TEST_DB_URL || 'postgresql://Alex:1@localhost/secret-santa-test',
     DB_URL: process.env.DB_URL || 'postgresql://Alex:1@localhost/secret-santa',
     JWT_SECRET: process.env.JWT_SECRET || 'change-this-secret',
-    EMAIL_PASS: 'thinkfulsanta123'
+    EMAIL_PASS: 'thinkfulsanta123',
+    CLIENT_ORIGIN: '*'
   }

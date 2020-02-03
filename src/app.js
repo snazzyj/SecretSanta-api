@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const {NODE_ENV} = require('./config');
+const {CLIENT_ORIGIN} = require('./config')
 const usersRouter = require('./users-router/users-router');
 const poolsRouter = require('./pools-router/pools-router');
 const pairingRouter = require('./pairings-router/pairings-router');
@@ -19,7 +20,9 @@ const morganOption = (NODE_ENV === 'production')
 
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin: CLIENT_ORIGIN
+}));
 
 app.use('/api/users', usersRouter); // locates user profile
 app.use('/api/pools', poolsRouter); //post req for creating pool
