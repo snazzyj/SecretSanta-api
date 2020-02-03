@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const app = require('../src/app');
 const { makeUsersArray } = require('./user.fixtures');
 
-describe.only('User Auth Endpoints', function () {
+describe('User Auth Endpoints', function () {
 
     let db;
     before('make knex instance', () => {

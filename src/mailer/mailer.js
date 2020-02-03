@@ -6,7 +6,8 @@ const Mailer = {
         const {gifteeName, pair, pool_id, confirmationCode} = user;
         const {name, email} = pair
 
-        const url = `http://localhost:3000/api/verify/${pool_id}`
+        const verifyUrl = `http://localhost:3000/verify/${pool_id}`;
+        const signUpUrl = 'http://localhost:3000/signup';
 
         let transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -21,11 +22,12 @@ const Mailer = {
         let helperOptions = {
             from: ' "Secret Santa" <secret.santa.pairings@gmail.com> ',
             to: email,
-            subject: `Hello ${name}! You got a new Secret Santa Pair!`,
+            subject: `Ho Ho Ho ${name}! You got a new Secret Santa Pair!`,
             html: `
             <p>You got <strong>${gifteeName}</strong> for Secret Santa!</p>
             <p>Your verification code is: <strong>${confirmationCode}</strong></p>
-            <p>Enter it here: <a href=${url}>Here</a></p>
+            <p>Enter it here: <a href=${verifyUrl}>Here</a> to confirm your status in the Secret Santa pool!</p>
+            <p>After doing so, <a href=${signUpUrl}>Sign Up</a>. Your email will be your primary username.
             `
         }
 
