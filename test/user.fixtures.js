@@ -1,6 +1,6 @@
 function makeUsersArray() {
     return [
-        {
+        {   
             id: 1,
             name: 'Alex',
             email: 'silentx.alex@gmail.com',
@@ -10,19 +10,19 @@ function makeUsersArray() {
             id: 2,
             name: 'Charleigh',
             email: 'imacat@gmail.com',
-            password: 'IamACat2'
+            password: null
         },
         {
             id: 3,
             name: 'Leyna',
             email: 'catsarethebest@gmail.com',
-            password: 'CatLover123'
+            password: null
         },
         {
             id: 4,
             name: 'Ollie',
             email: 'imajerk@gmail.com',
-            password: 'jerk123'
+            password: null
         }
     ]
 }
@@ -33,16 +33,11 @@ function makePoolsArray() {
             pool_id: 1,
             admin_email: 'silentx.alex@gmail.com',
             pool_name: 'Secret Santa Test'
-        },
-        {
-            pool_id: 2,
-            admin_email: 'imacat@gmail.com',
-            pool_name: 'Cat Santa'
         }
     ]
 }
 
-function getPairings() {
+function makePairingsArray() {
     return [
         {
             pool_id: 1,
@@ -72,6 +67,39 @@ function getPairings() {
     ]
 }
 
+function expectedPairsArray() {
+    return [
+        {
+            gifter: 'Alex',
+            giftee: 'Charleigh',
+            giftee_id: 2,
+            id: 1,
+            confirmation: false,
+        },
+        {
+            gifter: 'Charleigh',
+            giftee: 'Leyna',
+            giftee_id: 3,
+            id: 2,
+            confirmation: false,
+        },
+        {
+            gifter: 'Leyna',
+            giftee: 'Ollie',
+            giftee_id: 4,
+            id: 3,
+            confirmation: false,
+        },
+        {
+            gifter: 'Ollie',
+            giftee: 'Alex',
+            giftee_id: 1,
+            id: 4,
+            confirmation: false,
+        }
+    ]
+}
+
 function makeInterestsArray() {
     return [
         {
@@ -89,6 +117,7 @@ function makeInterestsArray() {
 module.exports = {
     makeUsersArray, 
     makePoolsArray, 
-    getPairings, 
+    makePairingsArray,
+    expectedPairsArray, 
     makeInterestsArray
 }

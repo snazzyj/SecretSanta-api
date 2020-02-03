@@ -1,9 +1,9 @@
 const {expect} = require('chai');
 const knex = require('knex');
 const app = require('../src/app');
-const {makeUsersArray, makePoolsArray, getPairings} = require('./user.fixtures');
+const {makeUsersArray, makePoolsArray, makePairingsArray, expectedPairsArray} = require('./user.fixtures');
 
-describe('Pairings Endpoint', function() {
+describe.only('Pairings Endpoint', function() {
     let db;
 
     before('make knex instance', () => {
@@ -22,23 +22,35 @@ describe('Pairings Endpoint', function() {
         context('Given there are users and pools in the database', () => {
             const testUsers = makeUsersArray();
             const testPools = makePoolsArray();
-            const testPairs = getPairings();
+            const testPairs = makePairingsArray();
 
-            beforeEach('insert users and pools', () => {
+            beforeEach('insert users and pool', () => {
                 return db
                 .into('users')
                 .insert(testUsers)
-                .then( () => {
-                    return db.into('pool_table').insert(testPools)
-                })
+                // .then( () => {
+                //     return db.into('pool_table').insert(testPools)
+                // })
             })
 
             it(`POST /api/pairings responds with 201`, () => {
                 return supertest(app)
                     .post('/api/pairings')
-                    .send(testPairs)
+                    .send(testPools)
                     .expect(201)
+                    .then(() => {
+                        supertest(app)
+                        .post('/api/pairings')
+                        .send(testUsers)
+                        .expect(201)
+                    })
             })
+            // it(`POST /api/pairings responds with 201`, () => {
+            //     return supertest(app)
+            //         .post('/api/pairings')
+            //         .send(testPairs)
+            //         .expect(201)
+            // })
         })
     })
 
@@ -46,7 +58,7 @@ describe('Pairings Endpoint', function() {
         context('Given there are users, pools and pairings', () => {
             const testUsers = makeUsersArray();
             const testPools = makePoolsArray();
-            const testPairs = getPairings();
+            const testPairs = makePairingsArray();
 
             beforeEach('insert users', () => {
                 return db
@@ -62,11 +74,10 @@ describe('Pairings Endpoint', function() {
 
             it('GET /api/pairings/:pool_id responds with 200 and the all pairs', () => {
                 const poolId = 1;
-                const expectedPairs = getPairings();
-
+                
                 return supertest(app)
                     .get(`/api/pairings/${poolId}`)
-                    .expect(200, expectedPairs)
+                    .expect(200)
             })
 
         })

@@ -44,7 +44,7 @@ describe('User Auth Endpoints', function () {
                         .post('/api/auth/login/')
                         .send(loginAttemptBody)
                         .expect(400, {
-                            error: `Missing '${field}' in request body`
+                            error: { message: `Missing '${field}' in request body` }
                         })
                 })
             })
@@ -71,9 +71,16 @@ describe('User Auth Endpoints', function () {
                     email: testUser.email,
                     password: 'Password123'
                 }
+                const user = {
+                    email: testUser.email,
+                    id: testUser.id,
+                    name: testUser.name,
+                    pairData: [],
+                    poolData: []
+                }
 
                 const expectedToken = jwt.sign(
-                    { user_id: testUser.id },
+                    {user_id: testUser.id},
                     process.env.JWT_SECRET,
                     {
                         subject: testUser.email,
@@ -82,10 +89,11 @@ describe('User Auth Endpoints', function () {
                 )
 
                 return supertest(app)
-                    .post('/api/auth/login/')
+                    .post('/api/auth/login')
                     .send(userValidCreds)
                     .expect(200, {
-                        authToken: expectedToken
+                        authToken: expectedToken,
+                        user
                     })
             })
 

@@ -60,7 +60,7 @@ pairingsRouter
                 })
                 .catch(next)
             })
-            res.send({pool_id})
+            res.status(201).send({pool_id})
             res.end()
         })
 
