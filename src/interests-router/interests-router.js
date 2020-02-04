@@ -13,7 +13,7 @@ interestsRouter
     .route('/:user_email')
     .all( (req, res, next) => {
 
-        InterestsService.getInterest(
+        InterestsService.getInterestByEmail(
             req.app.get('db'),
             req.params.user_email
         )
@@ -56,6 +56,29 @@ interestsRouter
             res.status(204).end()
         })
         .catch(next)
+    })
+
+interestsRouter
+    .route('/:user_id')
+    .all((req, res, next) => {
+
+        InterestsService.getInterestById(
+            req.app.get('db'),
+            req.params.user_id
+        )
+        .then(userInterest => {
+            if(!userInterest) {
+                return res.status(404).json({
+                    error: {message: `Interest doesn't exist`}
+                })
+            }
+            res.interests = userInterest
+            next();
+        })
+        .catch(next)
+    })
+    .get((req, res, next) => {
+        res.send(res.interests)
     })
 
 module.exports = interestsRouter;

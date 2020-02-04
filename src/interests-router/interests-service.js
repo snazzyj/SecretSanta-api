@@ -10,11 +10,19 @@ const InterestsService = {
         })
     },
 
-    getInterest(knex, email) {
+    getInterestByEmail(knex, email) {
         return knex
         .select('interest')
         .from('user_interests')
         .where('email', email)
+    },
+
+    getInterestById(knex, id) {
+        return knex
+            .select('interest')
+            .from('users')
+            .where('id', id)
+            .join('user_interests', 'users.email', '=', 'user_interests.email')
     },
 
     deleteInterest(knex, interest, email) {
