@@ -13,7 +13,7 @@ interestsRouter
     .route('/:user_id')
     .all( (req, res, next) => {
 
-        InterestsService.getInterestByEmail(
+        InterestsService.getInterest(
             req.app.get('db'),
             req.params.user_id
         )
