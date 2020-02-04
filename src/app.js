@@ -19,7 +19,9 @@ const morganOption = (NODE_ENV === 'production')
 
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin: 'https://build.snazzyj.now.sh'
+}));
 
 app.use('/api/users', usersRouter); // locates user profile
 app.use('/api/pools', poolsRouter); //post req for creating pool
