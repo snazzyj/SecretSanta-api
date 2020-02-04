@@ -1,4 +1,4 @@
 CREATE TABLE user_interests (
-    email TEXT REFERENCES users(email),
+    id INTEGER REFERENCES users(id),
     interest TEXT
 )
