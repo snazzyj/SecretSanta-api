@@ -50,7 +50,7 @@ interestsRouter
         InterestsService.deleteInterest(
             req.app.get('db'),
             interest,
-            req.params.id
+            req.params.user_id
         )
         .then( () => {
             res.status(204).end()
