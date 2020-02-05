@@ -20,7 +20,8 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors({
-    origin: 'https://build.snazzyj.now.sh'
+    // origin: 'https://build.snazzyj.now.sh'
+    origin: 'https://secretsanta.snazzyj.now.sh'
 }));
 
 app.use('/api/users', usersRouter); // locates user profile
