@@ -17,27 +17,12 @@ const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
 
-const corsOrigin = function(req, res, next) {
-    let whiteList = [
-        'https://build.snazzyj.now.sh',
-        'https://http://localhost:3000/',
-        'https://secretsanta.snazzyj.now.sh'
-    ];
-
-    let origin = req.headers.origin;
-
-    if(whiteList.indexOf(origin) > -1) {
-        res.setHeader('Access-Control-Allow-Origin', origin)
-    }
-}
-
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(corsOrigin);
-// app.use(cors({
-//     // origin: 'https://build.snazzyj.now.sh'
-//     origin: 'https://secretsanta.snazzyj.now.sh'
-// }));
+app.use(cors({
+    origin: 'https://build.snazzyj.now.sh'
+    // origin: 'https://secretsanta.snazzyj.now.sh'
+}));
 
 app.use('/api/users', usersRouter); // locates user profile
 app.use('/api/pools', poolsRouter); //post req for creating pool
