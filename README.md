@@ -1,26 +1,31 @@
-# Express Boilerplate!
+# Secret Santa Api
 
-This is a boilerplate project used for starting new projects!
+# Summary
+This API is used to take in an array of users, shuffle them and then pair them up together as if you were picking names out of a hat. 
 
-## Set up
+# Routes
+## Users
+  GET Req will return all users
+  POST Req will check to see if user exists, if not, create new user
+  GET/:id Req will return a specific user
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+## Interests
+  GET/:id Req returns all interests for that user
+  POST Req will post new interest
+  Delete Req will delete specific interest
+  
+## Pairings
+  POST Req will post all new pairings
+  This route also connects to NodeMailer to send a confirmation email to each user
+  GET/:poolId will return all pairs for a specific pool
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+## Pools
+  POST Req will post new pool
 
-## Scripts
+## Verify
+  PATCH Req will update a specific user's status in the pool that was created
 
-Start the application `npm start`
-
-Start nodemon for the application `npm run dev`
-
-Run the tests `npm test`
-
-## Deploying
-
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+# Tech
+1. Postgres
+2. Express
+3. NodeJs
