@@ -6,8 +6,8 @@ const Mailer = {
         const {gifteeName, pair, pool_id, confirmationCode} = user;
         const {name, email} = pair
 
-        const verifyUrl = `http://localhost:3000/verify/${pool_id}`;
-        const signUpUrl = 'http://localhost:3000/signup';
+        const verifyUrl = `https://secretsanta.snazzyj.now.sh/verify/${pool_id}`;
+        const signUpUrl = 'https://secretsanta.snazzyj.now.sh/signup';
 
         let transporter = nodemailer.createTransport({
             service: 'gmail',
