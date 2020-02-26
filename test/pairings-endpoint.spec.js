@@ -1,7 +1,8 @@
 const {expect} = require('chai');
 const knex = require('knex');
 const app = require('../src/app');
-const {makeUsersArray, makePoolsArray, makePairingsArray, expectedPairsArray} = require('./user.fixtures');
+const {makeUsersArray, makePoolsArray, makePairingsArray, userArray} = require('./user.fixtures');
+const TEST_DB_URL = "postgresql://Alex:1@localhost/secret-santa-test"
 
 describe.only('Pairings Endpoint', function() {
     let db;
@@ -9,7 +10,7 @@ describe.only('Pairings Endpoint', function() {
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
-            connection: process.env.TEST_DB_URL
+            connection: TEST_DB_URL
         })
         app.set('db', db)
     });
@@ -19,38 +20,24 @@ describe.only('Pairings Endpoint', function() {
     afterEach('cleanup', () => db.raw('TRUNCATE users, pool_table, members_pool, user_interests'));
 
     describe(`POST /api/pairings`, () => {
-        context('Given there are users and pools in the database', () => {
+        context('Given there are users and a pool in the database', () => {
             const testUsers = makeUsersArray();
-            const testPools = makePoolsArray();
-            const testPairs = makePairingsArray();
+            const users = userArray();
+            const pool_name = 'Test';
+            const admin_email = 'silentx.alex@gmail.com';
 
             beforeEach('insert users and pool', () => {
                 return db
                 .into('users')
                 .insert(testUsers)
-                // .then( () => {
-                //     return db.into('pool_table').insert(testPools)
-                // })
             })
 
             it(`POST /api/pairings responds with 201`, () => {
                 return supertest(app)
-                    .post('/api/pairings')
-                    .send(testPools)
+                    .post(`/api/pairings/`)
+                    .send(pool_name, admin_email, users)
                     .expect(201)
-                    .then(() => {
-                        supertest(app)
-                        .post('/api/pairings')
-                        .send(testUsers)
-                        .expect(201)
-                    })
             })
-            // it(`POST /api/pairings responds with 201`, () => {
-            //     return supertest(app)
-            //         .post('/api/pairings')
-            //         .send(testPairs)
-            //         .expect(201)
-            // })
         })
     })
 

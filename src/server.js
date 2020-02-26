@@ -1,10 +1,11 @@
 const knex = require('knex');
 const app = require('./app');
-const {PORT, DATABASE_URL} = require('./config');
+const {PORT} = require('./config');
+const TEST_DATABASE_URL = 'postgresql://Alex:1@localhost/secret-santa-test'
 
 const db = knex({
   client: 'pg',
-  connection: DATABASE_URL
+  connection: TEST_DATABASE_URL
 })
 
 app.set('db', db)

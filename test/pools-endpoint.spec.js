@@ -2,6 +2,7 @@ const {expect} = require('chai');
 const knex = require('knex');
 const app = require('../src/app');
 const {makeUsersArray, makePoolsArray} = require('./user.fixtures');
+const TEST_DB_URL = "postgresql://Alex:1@localhost/secret-santa-test"
 
 describe('Pools Endpoints', function () {
     let db;
@@ -9,7 +10,7 @@ describe('Pools Endpoints', function () {
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
-            connection: process.env.TEST_DB_URL
+            connection: TEST_DB_URL
         })
         app.set('db', db)
     });

@@ -30,7 +30,6 @@ function makeUsersArray() {
 function makePoolsArray() {
     return [
         {
-            pool_id: 1,
             admin_email: 'silentx.alex@gmail.com',
             pool_name: 'Secret Santa Test'
         }
@@ -40,62 +39,42 @@ function makePoolsArray() {
 function makePairingsArray() {
     return [
         {
-            pool_id: 1,
             email: 'silentx.alex@gmail.com',
             giftee: 'imacat@gmail.com',
-            confirmation: false,
         },
         {
-            pool_id: 1,
             email: 'imacat@gmail.com',
             giftee: 'catsarethebest@gmail.com',
-            confirmation: false,
         },
         {
-            pool_id: 1,
             email: 'catsarethebest@gmail.com',
             giftee: 'imajerk@gmail.com',
-            confirmation: false,
         },
         {
-            pool_id: 1,
             email: 'imajerk@gmail.com',
             giftee: 'silentx.alex@gmail.com',
-            confirmation: false,
         }
         
     ]
 }
 
-function expectedPairsArray() {
+function userArray() {
     return [
         {
-            gifter: 'Alex',
-            giftee: 'Charleigh',
-            giftee_id: 2,
-            id: 1,
-            confirmation: false,
+            name: 'Alex',
+            email: 'silentx.alex@gmail.com',
         },
         {
-            gifter: 'Charleigh',
-            giftee: 'Leyna',
-            giftee_id: 3,
-            id: 2,
-            confirmation: false,
+            name: 'Charleigh',
+            email: 'imacat@gmail.com',
         },
         {
-            gifter: 'Leyna',
-            giftee: 'Ollie',
-            giftee_id: 4,
-            id: 3,
-            confirmation: false,
+            name: 'Leyna',
+            email: 'catsarethebest@gmail.com',
         },
         {
-            gifter: 'Ollie',
-            giftee: 'Alex',
-            giftee_id: 1,
-            id: 4,
-            confirmation: false,
+            name: 'Ollie',
+            email: 'imajerk@gmail.com',
         }
     ]
 }
@@ -103,11 +82,11 @@ function expectedPairsArray() {
 function makeInterestsArray() {
     return [
         {
-            email: 'silentx.alex@gmail.com',
+            id: 1,
             interest: 'Plushies'
         },
         {
-            email: 'silentx.alex@gmail.com',
+            id: 1,
             interest: 'Peppermint'
         },
 
@@ -118,6 +97,6 @@ module.exports = {
     makeUsersArray, 
     makePoolsArray, 
     makePairingsArray,
-    expectedPairsArray, 
+    userArray,
     makeInterestsArray
 }

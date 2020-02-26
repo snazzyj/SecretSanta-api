@@ -3,6 +3,7 @@ const knex = require('knex');
 const jwt = require('jsonwebtoken');
 const app = require('../src/app');
 const {makeUsersArray} = require('./user.fixtures');
+const TEST_DB_URL = "postgresql://Alex:1@localhost/secret-santa-test"
 
 describe('Login Endpoints', function() {
 
@@ -10,7 +11,7 @@ describe('Login Endpoints', function() {
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
-            connection: process.env.TEST_DB_URL
+            connection: TEST_DB_URL
         })
         app.set('db', db)
     });

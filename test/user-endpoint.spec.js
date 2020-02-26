@@ -3,6 +3,7 @@ const knex = require('knex');
 const app = require('../src/app');
 const {makeUsersArray} = require('./user.fixtures');
 const UserService = require('../src/users-router/users-service');
+const TEST_DB_URL = "postgresql://Alex:1@localhost/secret-santa-test"
 
 describe('Users Endpoints', function() {
 
@@ -11,7 +12,7 @@ describe('Users Endpoints', function() {
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
-            connection: process.env.TEST_DB_URL
+            connection: TEST_DB_URL
         })
         app.set('db', db)
     });
@@ -33,6 +34,28 @@ describe('Users Endpoints', function() {
                 return supertest(app)
                     .get('/api/users')
                     .expect(200, testUsers)
+            })
+        })
+    })
+
+    describe(`POST /api/users`, () => {
+        context('Given there are users in the database', () => {
+            const users = [
+                {
+                    name: 'Alex',
+                    email: 'silentx.alex@gmail.com'
+                },
+                {
+                    name: 'Leyna',
+                    email: 'ilovecats@gmail.com'
+                }
+            ];
+
+            it('POST /api/users responds with 200', () => {
+                return supertest(app)
+                    .get('/api/users')
+                    .send(users)
+                    .expect(200)
             })
         })
     })

@@ -19,9 +19,10 @@ const morganOption = (NODE_ENV === 'production')
 
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(cors({
-    origin: 'https://secretsanta.snazzyj.now.sh'
-}));
+app.use(cors())
+// app.use(cors({
+//     origin: 'https://secretsanta.snazzyj.now.sh'
+// }));
 
 app.use('/api/users', usersRouter); // locates user profile
 app.use('/api/pools', poolsRouter); //post req for creating pool
@@ -29,11 +30,6 @@ app.use('/api/pairings', pairingRouter) // get + post req for pairings
 app.use('/api/interests', interestsRouter) // get + post req for user interests
 app.use('/api/auth', userAuth) // post req for login in and sign up
 app.use('/api/verify', verifyRouter) // patch for verifying status in pool
-
-
-app.get('/', (req, res) => {
-    res.send('Hello, world!')
-});
 
 app.use(function errorHandler(error, req, res, next) {
     let response;

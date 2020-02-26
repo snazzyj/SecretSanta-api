@@ -2,6 +2,7 @@ const {expect} = require('chai');
 const knex = require('knex');
 const app = require('../src/app');
 const {makeUsersArray, makeInterestsArray} = require('./user.fixtures')
+const TEST_DB_URL = "postgresql://Alex:1@localhost/secret-santa"
 
 describe('Interests Endpoints', function () {
 
@@ -10,7 +11,7 @@ describe('Interests Endpoints', function () {
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
-            connection: process.env.TEST_DB_URL
+            connection: TEST_DB_URL
         })
         app.set('db', db)
     });
@@ -28,12 +29,12 @@ describe('Interests Endpoints', function () {
             })
 
             it(`responds with 201 when adding a new interest`, () => {
-                const testInterests = makeInterestsArray();
-                const email = 'silentx.alex@gmail.com'
+                const testInterest = 'Chocolate';
+                const userId = 1;
 
                 return supertest(app)
-                    .post(`/api/interests/${email}`)
-                    .send(testInterests)
+                    .post(`/api/interests/${userId}`)
+                    .send(testInterest)
                     .expect(201)
             })
         })
@@ -42,7 +43,9 @@ describe('Interests Endpoints', function () {
     describe(`GET /api/interests/:user_id`, () => {
         context('Given there are users and interests in the database', () => {
             const testUsers = makeUsersArray();
-            const testInterests = makeInterestsArray();
+            const testInterests = makeInterestsArray(); 
+            const testInterest = 'Chocolate';
+
 
             beforeEach('insert users', () => {
                 return db
@@ -54,7 +57,7 @@ describe('Interests Endpoints', function () {
             })
 
             it(`responds with the interest`, () => {
-                const userEmail = 'silentx.alex@gmail.com'
+                const userId = 1;
                 const expected = [
                     {
                         interest: 'Plushies'
@@ -65,7 +68,7 @@ describe('Interests Endpoints', function () {
                 ]
 
                 return supertest(app)
-                    .get(`/api/interests/${userEmail}`)
+                    .get(`/api/interests/${userId}`)
                     .expect(200, expected)
 
             })
