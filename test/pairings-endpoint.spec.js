@@ -4,7 +4,7 @@ const app = require('../src/app');
 const {makeUsersArray, makePoolsArray, makePairingsArray, userArray} = require('./user.fixtures');
 const TEST_DB_URL = "postgresql://Alex:1@localhost/secret-santa-test"
 
-describe.only('Pairings Endpoint', function() {
+describe('Pairings Endpoint', function() {
     let db;
 
     before('make knex instance', () => {
@@ -21,11 +21,30 @@ describe.only('Pairings Endpoint', function() {
 
     describe(`POST /api/pairings`, () => {
         context('Given there are users and a pool in the database', () => {
-            const testUsers = makeUsersArray();
-            const users = userArray();
-            const pool_name = 'Test';
-            const admin_email = 'silentx.alex@gmail.com';
-
+            const testUsers = userArray();
+            const data = {
+                users: 
+                [
+                    {
+                        name: 'Alex',
+                        email: 'silentx.alex@gmail.com',
+                    },
+                    {
+                        name: 'Charleigh',
+                        email: 'imacat@gmail.com',
+                    },
+                    {
+                        name: 'Leyna',
+                        email: 'catsarethebest@gmail.com',
+                    },
+                    {
+                        name: 'Ollie',
+                        email: 'imajerk@gmail.com',
+                    }
+                ],
+                pool_name: 'Test',
+                admin_email: 'silentx.alex@gmail.com'
+            }
             beforeEach('insert users and pool', () => {
                 return db
                 .into('users')
@@ -35,7 +54,7 @@ describe.only('Pairings Endpoint', function() {
             it(`POST /api/pairings responds with 201`, () => {
                 return supertest(app)
                     .post(`/api/pairings/`)
-                    .send(pool_name, admin_email, users)
+                    .send(data)
                     .expect(201)
             })
         })

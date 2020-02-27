@@ -50,7 +50,6 @@ pairingsRouter
                         userMailInfo
                     )
                 })
-
                 PairingsService.insertPair(
                     req.app.get('db'),
                     newPairings
