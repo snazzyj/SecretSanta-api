@@ -3,6 +3,21 @@
 # Summary
 This API is used to take in an array of users, shuffle them and then pair them up together as if you were picking names out of a hat. 
 
+**Home** :
+![alt text](https://github.com/snazzyj/SecretSanta/blob/master/images/secretsantahome.png "Home Page")\
+
+**Create a Pool**:
+![alt text](https://github.com/snazzyj/SecretSanta/blob/master/images/secretsantacreate.png "Create A Pool")
+
+**Pairs**:
+![alt text](https://github.com/snazzyj/SecretSanta/blob/master/images/secretsantapairs.png "Pairs")
+
+**Profile**:
+![alt text](https://github.com/snazzyj/SecretSanta/blob/master/images/secretsantaprofile.png "Profile")
+
+**Verification**:
+![alt text](https://github.com/snazzyj/SecretSanta/blob/master/images/secretsantaverify.png "Verification")
+
 # Routes
 ## Users
   GET Req will return all users
