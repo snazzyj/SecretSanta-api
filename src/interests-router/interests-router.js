@@ -6,7 +6,7 @@ const jsonParser = express.json();
 
 const serializeInterest = user => ({
     interest: user.interest,
-    email: user.email
+    id: user.id
 })
 
 interestsRouter
