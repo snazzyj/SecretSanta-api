@@ -6,13 +6,6 @@ const MailerService = require('../mailer/mailer-service')
 const pairingsRouter = express.Router();
 const jsonParser = express.json();
 
-const serializePairings = pair => ({
-    pool_id: pair.pool_id,
-    email: pair.email,
-    giftee: pair.giftee,
-    confirmation: pair.confirmation
-})
-
 pairingsRouter
     .route('/')
     .post(jsonParser, (req, res, next) => {
