@@ -60,6 +60,7 @@ This API is used to take in an array of users, shuffle them and then pair them u
   URL: `https://warm-spire-44026.herokuapp.com/api/pairings/`
 
   POST Req will post all new pairings -> Responds with a pool_id number which is used to retrieve all pairs
+  This route also connects to NodeMailer to send a confirmation email to each user
   
   Input: `"users": [
         {
@@ -72,9 +73,7 @@ This API is used to take in an array of users, shuffle them and then pair them u
         }`
   
   Response: `{pool_id: 1}`
-  
-  This route also connects to NodeMailer to send a confirmation email to each user
-   
+     
   URL: `https://warm-spire-44026.herokuapp.com/api/pairings/1`
   GET/:poolId will return all pairs for a specific pool
   
