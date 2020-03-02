@@ -1,5 +1,12 @@
 # Secret Santa Api
 
+# Demo
+### [Live](https://secretsanta.snazzyj.now.sh/)
+#### Demo account: 
+#### Email: bar@gmail.com
+#### Password: Password123
+
+
 # Summary
 This API is used to take in an array of users, shuffle them and then pair them up together as if you were picking names out of a hat. 
 
